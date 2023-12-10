@@ -15,13 +15,13 @@ class Track
     j = '{'
     j += '"type": "Feature", '
     if @name != nil
-      j+= '"properties": {'
+      j += '"properties": {'
       j += '"title": "' + @name + '"'
       j += '},'
     end
     j += '"geometry": {'
     j += '"type": "MultiLineString",'
-    j +='"coordinates": ['
+    j += '"coordinates": ['
     # Loop through all the segment objects
     @segments.each_with_index do |s, index|
       if index > 0
@@ -42,8 +42,8 @@ class Track
         end
         tsj += ']'
       end
-      j+=tsj
-      j+=']'
+      j += tsj
+      j += ']'
     end
     j + ']}}'
   end
@@ -74,9 +74,9 @@ class Waypoint
   attr_reader :lat, :lon, :ele, :name, :type
 
   def initialize(lon, lat, ele=nil, name=nil, type=nil)
-    @lat = lat
-    @lon = lon
-    @ele = ele
+    @lat  = lat
+    @lon  = lon
+    @ele  = ele
     @name = name
     @type = type
   end
@@ -125,7 +125,7 @@ class World
     s = '{"type": "FeatureCollection","features": ['
     @features.each_with_index do |f,i|
       if i != 0
-        s +=","
+        s += ","
       end
         if f.class == Track
             s += f.get_track_json
@@ -142,9 +142,9 @@ def main()
   w = Waypoint.new(-121.5, 45.5, 30, "home", "flag")
   w2 = Waypoint.new(-121.5, 45.6, nil, "store", "dot")
   ts1 = [
-  Point.new(-122, 45),
-  Point.new(-122, 46),
-  Point.new(-121, 46),
+    Point.new(-122, 45),
+    Point.new(-122, 46),
+    Point.new(-121, 46),
   ]
 
   ts2 = [ Point.new(-121, 45), Point.new(-121, 46), ]

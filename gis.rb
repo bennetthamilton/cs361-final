@@ -48,15 +48,18 @@ class Track
     j + ']}}'
   end
 end
+
+
 class TrackSegment
   attr_reader :coordinates
+
   def initialize(coordinates)
     @coordinates = coordinates
   end
 end
 
-class Point
 
+class Point
   attr_reader :lat, :lon, :ele
 
   def initialize(lon, lat, ele=nil)
@@ -66,11 +69,9 @@ class Point
   end
 end
 
+
 class Waypoint
-
-
-
-attr_reader :lat, :lon, :ele, :name, :type
+  attr_reader :lat, :lon, :ele, :name, :type
 
   def initialize(lon, lat, ele=nil, name=nil, type=nil)
     @lat = lat
@@ -107,11 +108,14 @@ attr_reader :lat, :lon, :ele, :name, :type
   end
 end
 
+
 class World
-def initialize(name, things)
-  @name = name
-  @features = things
-end
+
+  def initialize(name, things)
+    @name = name
+    @features = things
+  end
+
   def add_feature(f)
     @features.append(t)
   end
@@ -132,6 +136,7 @@ end
     s + "]}"
   end
 end
+
 
 def main()
   w = Waypoint.new(-121.5, 45.5, 30, "home", "flag")
@@ -160,4 +165,3 @@ end
 if File.identical?(__FILE__, $0)
   main()
 end
-

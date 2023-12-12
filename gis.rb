@@ -1,23 +1,29 @@
 #!/usr/bin/env ruby
-class NullTrack
+class Feature
+  def to_geojson
+    raise NotImplementedError, "Subclasses must implement the to_geojson method."
+  end
+end
+
+class NullTrack < Feature
   def get_track_json
     '{"type": "Feature", "geometry": {"type": "MultiLineString", "coordinates": []}}'
   end
 end
 
-class NullWaypoint
+class NullWaypoint < Feature
   def get_waypoint_json(_indent = 0)
     '{"type": "Feature", "geometry": {"type": "Point", "coordinates": []}, "properties": {}}'
   end
 end
 
-class Track
+class Track < Feature
   def initialize(segments, name=nil)
     @name = name
     @segments = segments.map { |s| TrackSegment.new(s) }
   end
 
-  def get_track_json
+  def to_geojson
     '{"type": "Feature", ' \
       "#{properties_json}" \
       '"geometry": {"type": "MultiLineString","coordinates": [' \
@@ -67,7 +73,7 @@ class Point
 end
 
 
-class Waypoint
+class Waypoint < Feature
   attr_reader :latitude, :longitude, :elevation, :name, :type
 
   def initialize(longitude, latitude, elevation=nil, name=nil, type=nil)
@@ -78,7 +84,7 @@ class Waypoint
     @type = type
   end
 
-  def get_waypoint_json(indent=0)
+  def to_geojson(indent=0)
     '{"type": "Feature", ' \
       '"geometry": {"type": "Point","coordinates": ' \
       "[#{@longitude},#{@latitude}#{",#{@elevation}" if elevation}]}," \
@@ -116,16 +122,10 @@ class World
 
   def to_geojson(indent=0)
     geojson = '{"type": "FeatureCollection","features": ['
+
     @features.each_with_index do |feat,i|
-      if i != 0
-        geojson += ","
-      end
-      
-      if feat.class == Track
-        geojson += feat.get_track_json
-      elsif feat.class == Waypoint
-        geojson += feat.get_waypoint_json
-      end
+      geojson += "," if i.positive?
+      geojson += feat.to_geojson
     end
     geojson + "]}"
   end

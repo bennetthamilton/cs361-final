@@ -41,7 +41,7 @@ class Track
 
   def coordinates_json(segment)
     segment.coordinates.map do |c|
-      '[' + "#{c.lon},#{c.lat}" + (c.ele ? ",#{c.ele}" : '') + ']'
+      '[' + "#{c.longitude},#{c.latitude}" + (c.elevation ? ",#{c.elevation}" : '') + ']'
     end.join(',')
   end
 end
@@ -57,23 +57,23 @@ end
 
 
 class Point
-  attr_reader :lat, :lon, :ele
+  attr_reader :latitude, :longitude, :elevation
 
-  def initialize(lon, lat, ele=nil)
-    @lon = lon
-    @lat = lat
-    @ele = ele
+  def initialize(longitude, latitude, elevation=nil)
+    @longitude = longitude
+    @latitude = latitude
+    @elevation = elevation
   end
 end
 
 
 class Waypoint
-  attr_reader :lat, :lon, :ele, :name, :type
+  attr_reader :latitude, :longitude, :elevation, :name, :type
 
-  def initialize(lon, lat, ele=nil, name=nil, type=nil)
-    @lat  = lat
-    @lon  = lon
-    @ele  = ele
+  def initialize(longitude, latitude, elevation=nil, name=nil, type=nil)
+    @latitude  = latitude
+    @longitude  = longitude
+    @elevation  = elevation
     @name = name
     @type = type
   end
@@ -81,7 +81,7 @@ class Waypoint
   def get_waypoint_json(indent=0)
     '{"type": "Feature", ' \
       '"geometry": {"type": "Point","coordinates": ' \
-      "[#{@lon},#{@lat}#{",#{@ele}" if ele}]}," \
+      "[#{@longitude},#{@latitude}#{",#{@elevation}" if elevation}]}," \
       "#{build_properties_json}}"
   end
 

@@ -1,4 +1,15 @@
 #!/usr/bin/env ruby
+class NullTrack
+  def get_track_json
+    '{"type": "Feature", "geometry": {"type": "MultiLineString", "coordinates": []}}'
+  end
+end
+
+class NullWaypoint
+  def get_waypoint_json(_indent = 0)
+    '{"type": "Feature", "geometry": {"type": "Point", "coordinates": []}, "properties": {}}'
+  end
+end
 
 class Track
   def initialize(segments, name=nil)
@@ -8,7 +19,7 @@ class Track
 
   def get_track_json()
     j = '{"type": "Feature", '
-    if @name != nil
+    if @name
       j += '"properties": {"title": "' + @name + '"},'
     end
     j += '"geometry": {"type": "MultiLineString","coordinates": ['
@@ -74,17 +85,17 @@ class Waypoint
     # if name is not nil or type is not nil
     j += '"geometry": {"type": "Point","coordinates": '
     j += "[#{@lon},#{@lat}"
-    if ele != nil
+    if ele
       j += ",#{@ele}"
     end
     j += ']},'
-    if name != nil or type != nil
+    if name || type 
       j += '"properties": {'
-      if name != nil
+      if name 
         j += '"title": "' + @name + '"'
       end
-      if type != nil  # if type is not nil
-        if name != nil
+      if type   # if type is not nil
+        if name
           j += ','
         end
         j += '"icon": "' + @type + '"'  # type is the icon
@@ -145,7 +156,11 @@ def main()
   t = Track.new([ts1, ts2], "track 1")
   t2 = Track.new([ts3], "track 2")
 
-  world = World.new("My Data", [w, w2, t, t2])
+  # create instances of NullTrack and NullWaypoint
+  null_track = NullTrack.new
+  null_waypoint = NullWaypoint.new
+
+  world = World.new("My Data", [w, w2, t, t2, null_track, null_waypoint])
 
   puts world.to_geojson()
 end

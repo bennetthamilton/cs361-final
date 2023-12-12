@@ -53,26 +53,6 @@ class Track < Feature
 end
 
 
-class TrackSegment
-  attr_reader :coordinates
-
-  def initialize(coordinates)
-    @coordinates = coordinates
-  end
-end
-
-
-class Point
-  attr_reader :latitude, :longitude, :elevation
-
-  def initialize(longitude, latitude, elevation=nil)
-    @longitude = longitude
-    @latitude = latitude
-    @elevation = elevation
-  end
-end
-
-
 class Waypoint < Feature
   attr_reader :latitude, :longitude, :elevation, :name, :type
 
@@ -105,12 +85,29 @@ class Waypoint < Feature
     end
     properties
   end
-
 end
 
 
-class World
+class TrackSegment
+  attr_reader :coordinates
 
+  def initialize(coordinates)
+    @coordinates = coordinates
+  end
+end
+
+
+class Point
+  attr_reader :latitude, :longitude, :elevation
+
+  def initialize(longitude, latitude, elevation=nil)
+    @longitude = longitude
+    @latitude = latitude
+    @elevation = elevation
+  end
+end
+
+class World
   def initialize(name, features)
     @name = name
     @features = features

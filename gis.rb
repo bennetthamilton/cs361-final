@@ -82,12 +82,12 @@ class Waypoint
     '{"type": "Feature", ' \
       '"geometry": {"type": "Point","coordinates": ' \
       "[#{@longitude},#{@latitude}#{",#{@elevation}" if elevation}]}," \
-      "#{build_properties_json}}"
+      "#{properties_json}}"
   end
 
   private
 
-  def build_properties_json()
+  def properties_json()
     if name || type 
       properties = '"properties": {'
       properties += '"title": "' + @name + '"' if name
@@ -155,7 +155,7 @@ def main()
   track_1 = Track.new([track_segment_1, track_segment_2], "track 1")
   track_2 = Track.new([track_segment_3], "track 2")
 
-  null_track = NullTrack.new
+  null_track    = NullTrack.new
   null_waypoint = NullWaypoint.new
 
   world = World.new("My Data", [waypoint_1, waypoint_2, track_1, track_2, null_track, null_waypoint])

@@ -105,13 +105,13 @@ end
 
 class World
 
-  def initialize(name, things)
+  def initialize(name, features)
     @name = name
-    @features = things
+    @features = features
   end
 
-  def add_feature(f)
-    @features.append(t)
+  def add_feature(feature)
+    @features.append(feature)
   end
 
   def to_geojson(indent=0)

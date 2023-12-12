@@ -1,21 +1,34 @@
+# Title: CS361 Final Project
+# Name: Bennett Hamilton
+# Date: 12/12/23
+# Description: refactor given code to reflect all the principles of 
+#              clean code learned throught the course
+
 #!/usr/bin/env ruby
+
+# ref: "Clean Code: A Handbook for Agile Software Craftmanship" by Robert Martin 
+#      and "PRACTICAL OBJECT-ORIENTED DESIGN IN RUBY" by Sandi Metz
+
 class Feature
   def to_geojson
     raise NotImplementedError, "Subclasses must implement the to_geojson method."
   end
 end
 
+
 class NullTrack < Feature
-  def get_track_json
+  def to_geojson
     '{"type": "Feature", "geometry": {"type": "MultiLineString", "coordinates": []}}'
   end
 end
 
+
 class NullWaypoint < Feature
-  def get_waypoint_json(_indent = 0)
+  def to_geojson(_indent = 0)
     '{"type": "Feature", "geometry": {"type": "Point", "coordinates": []}, "properties": {}}'
   end
 end
+
 
 class Track < Feature
   def initialize(segments, name=nil)
@@ -107,6 +120,7 @@ class Point
   end
 end
 
+
 class World
   def initialize(name, features)
     @name = name
@@ -118,13 +132,17 @@ class World
   end
 
   def to_geojson(indent=0)
-    geojson = '{"type": "FeatureCollection","features": ['
+    '{"type": "FeatureCollection","features": [' \
+      "#{features_json}" \
+      ']}'
+  end
 
-    @features.each_with_index do |feat,i|
-      geojson += "," if i.positive?
-      geojson += feat.to_geojson
-    end
-    geojson + "]}"
+  private
+
+  def features_json
+    @features.map.with_index do |feat, i|
+      "#{',' if i.positive?}#{feat.to_geojson}"
+    end.join('')
   end
 end
 

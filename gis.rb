@@ -81,10 +81,7 @@ class Waypoint
   end
 
   def get_waypoint_json(indent=0)
-    j = '{"type": "Feature",'
-    # if name is not nil or type is not nil
-    j += '"geometry": {"type": "Point","coordinates": '
-    j += "[#{@lon},#{@lat}"
+    j = '{"type": "Feature", "geometry": {"type": "Point","coordinates": ' + "[#{@lon},#{@lat}"
     if ele
       j += ",#{@ele}"
     end

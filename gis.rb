@@ -115,7 +115,6 @@ class World
   end
 
   def to_geojson(indent=0)
-    # Write stuff
     s = '{"type": "FeatureCollection","features": ['
     @features.each_with_index do |f,i|
       if i != 0

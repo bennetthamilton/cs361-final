@@ -79,11 +79,10 @@ class Waypoint
   end
 
   def get_waypoint_json(indent=0)
-    j = '{"type": "Feature", "geometry": {"type": "Point","coordinates": ' + "[#{@lon},#{@lat}"
-    j += ",#{@ele}" if ele
-    j += ']},'
-    j += build_properties_json
-    j + "}"
+    '{"type": "Feature", ' \
+      '"geometry": {"type": "Point","coordinates": ' \
+      "[#{@lon},#{@lat}#{",#{@ele}" if ele}]}," \
+      "#{build_properties_json}}"
   end
 
   private

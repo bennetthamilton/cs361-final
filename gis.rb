@@ -71,18 +71,25 @@ class Waypoint
     j = '{"type": "Feature", "geometry": {"type": "Point","coordinates": ' + "[#{@lon},#{@lat}"
     j += ",#{@ele}" if ele
     j += ']},'
-    if name || type 
-      j += '"properties": {'
-      j += '"title": "' + @name + '"' if name
-      if type   # if type is not nil
-        j += ',' if name
-        j += '"icon": "' + @type + '"'  # type is the icon
-      end
-      j += '}'
-    end
-    j += "}"
-    j
+    j += build_properties_json
+    j + "}"
   end
+
+  private
+
+  def build_properties_json()
+    if name || type 
+      properties = '"properties": {'
+      properties += '"title": "' + @name + '"' if name
+      if type   # if type is not nil
+        properties += ',' if name
+        properties += '"icon": "' + @type + '"'  # type is the icon
+      end
+      properties += '}'
+    end
+    properties
+  end
+
 end
 
 

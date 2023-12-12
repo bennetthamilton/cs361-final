@@ -91,9 +91,9 @@ class Waypoint
     if name || type 
       properties = '"properties": {'
       properties += '"title": "' + @name + '"' if name
-      if type   # if type is not nil
+      if type  
         properties += ',' if name
-        properties += '"icon": "' + @type + '"'  # type is the icon
+        properties += '"icon": "' + @type + '"'  
       end
       properties += '}'
     end
@@ -150,7 +150,6 @@ def main()
   t = Track.new([ts1, ts2], "track 1")
   t2 = Track.new([ts3], "track 2")
 
-  # create instances of NullTrack and NullWaypoint
   null_track = NullTrack.new
   null_waypoint = NullWaypoint.new
 

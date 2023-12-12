@@ -3,12 +3,7 @@
 class Track
   def initialize(segments, name=nil)
     @name = name
-    segment_objects = []
-    segments.each do |s|
-      segment_objects.append(TrackSegment.new(s))
-    end
-    # set segments to segment_objects
-    @segments = segment_objects
+    @segments = segments.map { |s| TrackSegment.new(s) }
   end
 
   def get_track_json()

@@ -157,6 +157,6 @@ def main()
   puts world.to_geojson()
 end
 
-if File.identical?(__FILE__, $0)
-  main()
+if $PROGRAM_NAME == __FILE__
+  main
 end

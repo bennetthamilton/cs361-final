@@ -17,21 +17,32 @@ class Track
     @segments = segments.map { |s| TrackSegment.new(s) }
   end
 
-  def get_track_json()
-    j = '{"type": "Feature", '
-    j += '"properties": {"title": "' + @name + '"},' if @name
-    j += '"geometry": {"type": "MultiLineString","coordinates": ['
-    # Loop through all the segment objects
-    @segments.each_with_index do |s, index|
-      j += "," if index.positive?
-      j += '['
-      # Loop through all the coordinates in the segment
-      tsj = s.coordinates.map do |c|
-        '[' + "#{c.lon},#{c.lat}" + (c.ele ? ",#{c.ele}" : '') + ']'
-      end.join(',')
-      j += tsj + ']'
-    end
-    j + ']}}'
+  def get_track_json
+    '{"type": "Feature", ' \
+      "#{properties_json}" \
+      '"geometry": {"type": "MultiLineString","coordinates": [' \
+      "#{segments_json}" \
+      ']}}'
+  end
+
+  private
+
+  def properties_json
+    return '' unless @name
+
+    '"properties": {"title": "' + @name + '"},'
+  end
+
+  def segments_json
+    @segments.map.with_index do |s, index|
+      "#{',' if index.positive?}[#{coordinates_json(s)}]"
+    end.join('')
+  end
+
+  def coordinates_json(segment)
+    segment.coordinates.map do |c|
+      '[' + "#{c.lon},#{c.lat}" + (c.ele ? ",#{c.ele}" : '') + ']'
+    end.join(',')
   end
 end
 
